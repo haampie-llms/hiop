@@ -103,6 +103,8 @@ For a minimal build, HiOp requires LAPACK and BLAS. These dependencies are autom
 
 Please note that HiOp supports GPU computations on NVIDIA and AMD hardware through the RAJA and Umpire performance portability libraries. Enable the desired backend with `-DHIOP_USE_CUDA=ON` or `-DHIOP_USE_HIP=ON`; CMake enables the internal `HIOP_USE_GPU` option automatically.
 
+With `-DHIOP_USE_HIP=ON`, HIP sources are compiled with CMake's HIP language, so the C++ compiler does not have to be a HIP compiler. The HIP compiler is selected with `CMAKE_HIP_COMPILER` and the GPU architectures with `CMAKE_HIP_ARCHITECTURES`, which defaults to `GPU_TARGETS`.
+
 ## Install with Spack
 
 If you would like to use our public [`package.py`](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/hiop/package.py):

@@ -48,19 +48,12 @@ if(HIOP_USE_CUDA)
 endif()
 
 if(HIOP_USE_HIP)
-  # Mark appropriate source files as HIP. I guess in the future just a
-  # LANGUAGE HIP property will suffice. For now do it via compile flags
-  # set_source_files_properties(${hiopUtils_HIP_SRC} PROPERTIES LANGUAGE HIP)
-  # Reference: https://www.olcf.ornl.gov/wp-content/uploads/2021/01/2021UM-Day-3-Joo-Developing-for-Frontier-using-HIP-on-Spock.pdf
-
   # RAJA-related
-  set_source_files_properties(${hiopUtils_RAJA_SRC} PROPERTIES LANGUAGE CXX)
-  set_source_files_properties(${hiopUtils_RAJA_SRC} PROPERTIES COMPILE_FLAGS "-x hip")
+  set_source_files_properties(${hiopUtils_RAJA_SRC} PROPERTIES LANGUAGE HIP)
 
   # HIP kernels
   set(hiopUtils_HIP_SRC MathKernelsHip.cpp)
-  set_source_files_properties( ${hiopUtils_HIP_SRC} PROPERTIES LANGUAGE CXX)
-  set_source_files_properties( ${hiopUtils_HIP_SRC} PROPERTIES COMPILE_FLAGS "-x hip")
+  set_source_files_properties(${hiopUtils_HIP_SRC} PROPERTIES LANGUAGE HIP)
   list(APPEND hiopUtils_SRC ${hiopUtils_HIP_SRC})
 endif()
 

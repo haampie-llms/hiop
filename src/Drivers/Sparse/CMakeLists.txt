@@ -25,6 +25,12 @@ if(HIOP_USE_RAJA)
         NlpSparseRajaEx2Driver.cpp
         PROPERTIES LANGUAGE CUDA
       )
+    elseif(HIOP_USE_HIP)
+      set_source_files_properties(
+        NlpSparseRajaEx2.cpp
+        NlpSparseRajaEx2Driver.cpp
+        PROPERTIES LANGUAGE HIP
+      )
     endif()
   
     add_executable(NlpSparseRajaEx2.exe  NlpSparseRajaEx2Driver.cpp  NlpSparseRajaEx2.cpp)

@@ -18,6 +18,11 @@ if(HIOP_USE_MPI AND HIOP_SPARSE)
         NlpPriDecEx2SparseRaja.cpp 
         NlpPriDecEx2SparseRajaDriver.cpp 
         PROPERTIES LANGUAGE CUDA)
+    elseif(HIOP_USE_HIP)
+      set_source_files_properties(
+        NlpPriDecEx2SparseRaja.cpp
+        NlpPriDecEx2SparseRajaDriver.cpp
+        PROPERTIES LANGUAGE HIP)
     endif()
     add_executable(NlpPriDecEx2SparseRaja.exe NlpPriDecEx2SparseRajaDriver.cpp NlpPriDecEx2SparseRaja.cpp ../Sparse/NlpSparseEx1.cpp)
     target_link_libraries(NlpPriDecEx2SparseRaja.exe HiOp::HiOp)

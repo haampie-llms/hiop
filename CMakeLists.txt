@@ -66,13 +66,6 @@ else()
   set(HIOP_USE_GPU OFF CACHE BOOL "Build with support for GPUs - derived from CUDA or HIP support" FORCE)
 endif()
 
-if(HIOP_USE_HIP AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  message(FATAL_ERROR
-    "HIOP_USE_HIP requires ROCm Clang as the C++ compiler, but CMake selected "
-    "${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}). Configure a fresh build "
-    "directory with -C scripts/clang-hip.cmake or select amdclang++ explicitly.")
-endif()
-
 option(HIOP_TEST_WITH_BSUB "Use `jsrun` instead of `mpirun` commands when running tests" OFF)
 option(HIOP_TEST_WITH_SLURM "Use `srun` instead of `mpirun` commands when running tests" OFF)
 option(HIOP_USE_RAJA "Build with portability abstraction library RAJA" OFF)

@@ -175,31 +175,14 @@ endif(HIOP_USE_CUDA)
 if(HIOP_USE_HIP)
   list(APPEND hiopLinAlg_SRC ${hiopLinAlg_HIPVECTOR_SRC})
 
-  # Mark appropriate source files as HIP. I guess in the future just a
-  # LANGUAGE HIP property will suffice. For now do it via compile flags
-  # Reference: https://www.olcf.ornl.gov/wp-content/uploads/2021/01/2021UM-Day-3-Joo-Developing-for-Frontier-using-HIP-on-Spock.pdf
-  # set_source_files_properties(${hiopLinAlg_HIPVECTORKERNELS_SRC} PROPERTIES LANGUAGE HIP)
-
   set_source_files_properties(
+    ${hiopLinAlg_HIPVECTOR_SRC}
     ${hiopLinAlg_HIPVECTORKERNELS_SRC}
-    PROPERTIES LANGUAGE CXX
-  )
-
-  set_source_files_properties(
-    ${hiopLinAlg_HIPVECTORKERNELS_SRC}
-    PROPERTIES COMPILE_FLAGS "-x hip"
+    PROPERTIES LANGUAGE HIP
   )
 
   if(HIOP_USE_RESOLVE)
-    set_source_files_properties(
-      ${hiopLinAlg_RESOLVE_SRC}
-      PROPERTIES LANGUAGE CXX
-    )
-
-    set_source_files_properties(
-      ${hiopLinAlg_RESOLVE_SRC}
-      PROPERTIES COMPILE_FLAGS "-x hip"
-    )
+    set_source_files_properties(${hiopLinAlg_RESOLVE_SRC} PROPERTIES LANGUAGE HIP)
   endif()
 
   list(APPEND hiopLinAlg_SRC ${hiopLinAlg_HIPVECTORKERNELS_SRC})
@@ -230,6 +213,10 @@ if(HIOP_USE_GPU)
         PROPERTIES LANGUAGE CUDA
       )
     endif()
+  endif()
+
+  if(HIOP_USE_HIP)
+    set_source_files_properties(${hiopLinAlg_RAJA_SRC} PROPERTIES LANGUAGE HIP)
   endif()
 endif()
 
