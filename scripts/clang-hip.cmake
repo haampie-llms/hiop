@@ -13,9 +13,8 @@ else()
 endif()
 set(ROCM_PATH "${_hiop_rocm_path}" CACHE PATH "ROCm installation prefix")
 
-# HIP compile options propagated by RAJA and Umpire require ROCm Clang. Select
-# it before project() unless the user chose compilers through CMake or the
-# standard CC/CXX environment variables.
+# Select ROCm Clang before project() unless the user chose compilers through
+# CMake or the standard CC/CXX environment variables.
 if(NOT DEFINED CMAKE_C_COMPILER AND "$ENV{CC}" STREQUAL "")
   set(_hiop_amdclang "${_hiop_rocm_path}/bin/amdclang")
   if(NOT EXISTS "${_hiop_amdclang}")

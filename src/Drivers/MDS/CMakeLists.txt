@@ -9,6 +9,12 @@ if(HIOP_USE_RAJA)
       NlpMdsEx1RajaDriver.cpp 
       PROPERTIES LANGUAGE CUDA
     )
+  elseif(HIOP_USE_GPU AND HIOP_USE_HIP)
+    set_source_files_properties(
+      NlpMdsRajaEx1.cpp
+      NlpMdsEx1RajaDriver.cpp
+      PROPERTIES LANGUAGE HIP
+    )
   endif()
   add_executable(NlpMdsEx1Raja.exe  NlpMdsEx1RajaDriver.cpp  NlpMdsRajaEx1.cpp)
   target_link_libraries(NlpMdsEx1Raja.exe HiOp::HiOp)

@@ -19,6 +19,18 @@ set(CMAKE_MODULE_PATH "${ROCM_PATH}/lib/cmake" ${CMAKE_MODULE_PATH})
 
 # Set GPU Targets and Find all the HIP modules
 set(GPU_TARGETS "gfx908" CACHE STRING "The GPU TARGETs")
+
+# HIP sources are compiled with the HIP language, so the C++ compiler does not
+# have to be a HIP compiler.
+if(NOT DEFINED CMAKE_HIP_ARCHITECTURES)
+  set(CMAKE_HIP_ARCHITECTURES "${GPU_TARGETS}" CACHE STRING "HIP architectures")
+endif()
+if(NOT DEFINED CMAKE_HIP_STANDARD)
+  set(CMAKE_HIP_STANDARD ${CMAKE_CXX_STANDARD})
+  set(CMAKE_HIP_STANDARD_REQUIRED ON)
+endif()
+enable_language(HIP)
+
 find_package(hip REQUIRED)
 find_package(hipfft REQUIRED)
 find_package(hiprand REQUIRED)
@@ -54,8 +66,13 @@ target_link_libraries(hiop_hip INTERFACE
   hip::hiprand roc::rocrand
   hip::hipfft
   roc::hipblas roc::rocblas
-  hip::hipcub roc::rocprim_hip
   )
+
+# hip::hipcub and roc::rocprim_hip link hip::device, which compiles every C++
+# source as HIP and requires a HIP compiler as C++ compiler.
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  target_link_libraries(hiop_hip INTERFACE hip::hipcub roc::rocprim_hip)
+endif()
 
 if(HIOP_USE_MAGMA)
   target_link_libraries(hiop_hip INTERFACE Magma)
